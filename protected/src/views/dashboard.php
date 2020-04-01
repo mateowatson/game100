@@ -4,5 +4,16 @@
 <form action="/logout" method="POST">
     <input type="text" name="csrf" id="csrf" value="<?php echo $SESSION['csrf']; ?>" hidden>
     <input type="submit" name="submit" value="Log Out">
+</form><br>
+
+<h2>Create Game</h2>
+<form action="/create-game" method="POST">
+    <input type="text" name="csrf" id="csrf" value="<?php echo $SESSION['csrf']; ?>" hidden>
+    <label>Game Type:<br>
+        <select name="game-type">
+            <option value="hangman">Hangman</option>
+        </select>
+    </label><br><br>
+    <input type="submit" name="submit" value="Create Game">
 </form>
 <?php require_once('partials/footer.php');

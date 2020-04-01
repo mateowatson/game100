@@ -14,7 +14,7 @@ CREATE TABLE `users` (
 
 CREATE TABLE `games` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
+  `uuid` varchar(255) UNIQUE NOT NULL,
   `creator` int(11) NOT NULL,
   `state` longtext DEFAULT NULL,
   PRIMARY KEY (`id`),
