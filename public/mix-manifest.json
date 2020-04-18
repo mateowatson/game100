@@ -1,0 +1,7 @@
+{
+    "/dist/app.js": "/dist/app.js",
+    "/dist/app.css": "/dist/app.css",
+    "/dist/hangman/app.js": "/dist/hangman/app.js",
+    "/dist/hangman/manifest.js": "/dist/hangman/manifest.js",
+    "/dist/hangman/vendor.js": "/dist/hangman/vendor.js"
+}

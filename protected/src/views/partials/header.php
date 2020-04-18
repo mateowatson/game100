@@ -6,7 +6,10 @@
     <meta name="robots" content="noindex, nofollow">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php echo $SITE_NAME; ?></title>
-    <link rel="stylesheet" href="<?php echo $SITE_URL; ?>/css/app.css">
+    <link rel="stylesheet" href="<?php echo $SITE_URL; ?>/dist/app.css">
+    <?php foreach ($enqueued_header_scripts as $enqueued_header_script): ?>
+    <script src="<?php echo $enqueued_header_script; ?>"></script>
+    <?php endforeach; ?>
 </head>
 <body>
 

@@ -1,12 +1,15 @@
 <?php
 namespace F3AppSetup\Controller;
 
+use F3AppSetup\Domain\EnqueueScripts;
+
 class Main {
     protected $f3;
     protected $params;
     protected $request;
     protected $db;
     protected $session_user;
+    protected $enqueue_scripts;
     protected $csrf_fail_redirect;
 
     public function __construct($f3, $params, $csrf_fail_redirect = '/') {
@@ -14,6 +17,7 @@ class Main {
         $this->params = $params;
         $this->request = $f3->get('REQUEST');
         $this->db = $f3->get('DB');
+        $this->enqueue_scripts = new EnqueueScripts();
         $this->csrf_fail_redirect = $csrf_fail_redirect;
     }
 
@@ -34,6 +38,12 @@ class Main {
         // Reset errors to put in session after route
         $this->f3->set('session_errors', array());
         $this->f3->set('session_confirmations', array());
+        // Enqueue default scripts
+        $this->enqueue_scripts->enqueueFooterScripts(array(
+            $this->f3->get('SITE_URL').'/dist/app.js'
+        ));
+        // No default header scripts
+        $this->enqueue_scripts->enqueueHeaderScripts();
     }
 
     public function afterRoute() {
