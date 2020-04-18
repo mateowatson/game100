@@ -19,6 +19,13 @@ class User extends Mapper {
         return true;
     }
 
+    public function userResetPassword($password) {
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->password_reset_verification_hash = null;
+        $this->save();
+        return true;
+    }
+
     public function userErase($username) {
         $this->load(array('username = ?', $username));
         if($this->dry()) return false;
@@ -33,9 +40,13 @@ class User extends Mapper {
 
     public function updateEmailVerificationHash($username, $email_verification_hash) {
         if(!$this->userExists($username)) return false;
-        $this->load(array('username=?', $username));
+        $this->load(array('username = ?', $username));
         $this->email_verification_hash = $email_verification_hash;
         $this->save();
         return true;
+    }
+
+    public function getUsersByEmail($email) {
+        return $this->find(array('email = ?', $email));
     }
 }

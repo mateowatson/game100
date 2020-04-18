@@ -44,12 +44,17 @@ if($f3->get('SITE_ENV') === 'development') {
 } else {
     $f3->set('DEBUG',0);
 }
+// Set error view
+$f3->set('ONERROR', function($f3){
+    echo \View::instance()->render('error.php');
+});
 // Set is email enabled global variable
 if(
     $f3->get('SMTP_HOST') &&
     $f3->get('SMTP_USERNAME') &&
     $f3->get('SMTP_PASSWORD') &&
-    $f3->get('SMTP_PORT')
+    $f3->get('SMTP_PORT') &&
+    $f3->get('USERSIGNUP') !== 'anonymous'
 ) {
     $f3->set('EMAIL_ENABLED', true);
 } else {
@@ -75,6 +80,6 @@ $tz_mins -= $tz_hrs * 60;
 $tz_offset = sprintf('%+d:%02d', $tz_hrs*$tz_sgn, $tz_mins);
 $db = $f3->get('DB');
 $db->exec("SET time_zone='$tz_offset';");
-$f3->set('view_errors', json_decode($f3->get('SESSION.view_errors')) ? : array());
+//$f3->set('view_errors', json_decode($f3->get('SESSION.view_errors')) ? : array());
 // Run f3
 $f3->run();
