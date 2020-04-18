@@ -13,7 +13,7 @@ class HangmanAPI {
 
     public function createGame($userid) {
         $game = new Game();
-        if(!$game->gameCreate($userid)) {
+        if(!$game->gameCreate($userid, 'hangman')) {
             array_push($this->errors, _(
                 'Game not created.'
             ));

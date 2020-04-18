@@ -17,6 +17,7 @@ CREATE TABLE `games` (
   `uuid` varchar(255) UNIQUE NOT NULL,
   `creator` int(11) NOT NULL,
   `state` longtext DEFAULT NULL,
+  `game_type` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `creator` (`creator`),
   CONSTRAINT `games_ibfk_1` FOREIGN KEY (`creator`) REFERENCES `users` (`id`)

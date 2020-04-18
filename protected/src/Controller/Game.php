@@ -18,6 +18,10 @@ class Game extends Middleware\User {
                 $this->f3->merge('session_errors', $response['errors'], true);
                 $this->reroute('/dashboard');
             }
+            $this->f3->merge('session_confirmations', array(
+                _('Game created.')
+            ), true);
+            $this->reroute('/hangman/'.urlencode($response['game_uuid']));
         }
     }
 }

@@ -1,0 +1,9 @@
+name: game100
+recipe: lamp
+config:
+  webroot: ./public
+  database: mariadb
+  php: 7.2
+services:
+  phpmyadmin:
+    type: phpmyadmin:5.0
