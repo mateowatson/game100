@@ -4,6 +4,7 @@ namespace F3AppSetup\Domain;
 
 use F3AppSetup\Model\Game;
 use F3AppSetup\Model\User;
+use F3AppSetup\Model\UserGame;
 
 class HangmanAPI {
     private $success = false;
@@ -28,7 +29,7 @@ class HangmanAPI {
         return $this->buildResponse();
     }
 
-    public function getApiState($uuid) {
+    public function getApiState($session_user, $uuid) {
         $game = new Game();
         $game->load(array('uuid = ?', $uuid));
         if($game->dry()) {
@@ -37,8 +38,20 @@ class HangmanAPI {
             ));
             return $this->buildResponse();
         }
+        $user_game = new UserGame();
+        $user_game->load(array(
+            'user_id = ? AND game_id = ?',
+            $session_user->id,
+            $game->id
+        ));
+        if($user_game->dry()) {
+            array_push($this->errors, _(
+                'Access denied.'
+            ));
+            return $this->buildResponse();
+        }
         $this->success = true;
-        $this->game_state = $game->game_state;
+        $this->game_state = json_decode($game->game_state);
         $this->game_uuid = $game->uuid;
         $this->game_id = $game->id;
         return $this->buildResponse();

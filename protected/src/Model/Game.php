@@ -17,8 +17,9 @@ class Game extends Mapper {
         $this->game_state = $game_state;
         $this->save();
 
-        //$users_games = new UserGame();
-        //$users_games->addUserToGame($creator->id, $this->id);
+        $users_games = new UserGame();
+        $users_games->addUserToGame($creator->id, $this->id);
+        
         return true;
     }
 }

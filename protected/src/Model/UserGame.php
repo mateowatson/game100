@@ -9,7 +9,7 @@ class UserGame extends Mapper {
     }
 
     public function addUserToGame($user_id, $game_id) {
-        $this->load('user_id = ? AND game_id = ?', $user_id, $game_id);
+        $this->load(array('user_id = ? AND game_id = ?', $user_id, $game_id));
         if($this->dry()) {
             $this->user_id = $user_id;
             $this->game_id = $game_id;

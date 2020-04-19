@@ -22,7 +22,10 @@ class Hangman extends \F3AppSetup\Controller\Middleware\User {
     }
 
     public function getApiState() {
-        $response = $this->hangman_api->getApiState($this->params['uuid']);
+        $response = $this->hangman_api->getApiState(
+            $this->session_user,
+            $this->params['uuid']
+        );
         echo json_encode($response);
         return $response;
     }
