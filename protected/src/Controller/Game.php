@@ -13,7 +13,7 @@ class Game extends Middleware\User {
         $game_type = isset($this->request['game-type']) ? $this->request['game-type'] : null;
         if($game_type === 'hangman') {
             $hangman = new HangmanAPI();
-            $response = $hangman->createGame($this->session_user->id);
+            $response = $hangman->createGame($this->session_user);
             if(!$response['success']) {
                 $this->f3->merge('session_errors', $response['errors'], true);
                 $this->reroute('/dashboard');

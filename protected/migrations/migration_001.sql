@@ -16,7 +16,7 @@ CREATE TABLE `games` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(255) UNIQUE NOT NULL,
   `creator` int(11) NOT NULL,
-  `state` longtext DEFAULT NULL,
+  `game_state` longtext DEFAULT NULL,
   `game_type` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `creator` (`creator`),
