@@ -7,6 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php echo $SITE_NAME; ?></title>
     <link rel="stylesheet" href="<?php echo $SITE_URL; ?>/dist/app.css">
+    <script type="text/javascript">
+        window.appCsrf = '<?php echo $SESSION['csrf']; ?>';
+        window.appUsername = '<?php echo $SESSION['username']; ?>';
+    </script>
     <?php foreach ($enqueued_header_scripts as $enqueued_header_script): ?>
     <script src="<?php echo $enqueued_header_script; ?>"></script>
     <?php endforeach; ?>

@@ -16,4 +16,8 @@
     </label><br><br>
     <input type="submit" name="submit" value="Create Game">
 </form>
+
+<h2>Pending Invites</h2>
+
+<h2>Games in progress</h2>
 <?php require_once('partials/footer.php');

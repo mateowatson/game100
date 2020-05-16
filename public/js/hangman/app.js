@@ -5,4 +5,4 @@ new Vue({
     el: '#hangmanapp',
     components: { Hangman },
     template: '<Hangman />'
-});
+})

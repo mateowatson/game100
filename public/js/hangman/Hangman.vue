@@ -1,5 +1,6 @@
 <template>
     <div>
+        <InvitePlayers :url-game-uuid="urlGameUuid" :api-state="apiState" />
         <pre>{{apiState}}</pre>
     </div>
 </template>
@@ -7,6 +8,7 @@
 <script>
 import axios from 'axios'
 import urlParse from 'url-parse'
+import InvitePlayers from './InvitePlayers.vue'
 
 export default {
     data() {
@@ -28,7 +30,8 @@ export default {
     methods: {
         async getApiState() {
             try {
-                let response = await axios.get('/hangman/get-api-state/'+this.urlGameUuid)
+                let response = await axios.get('/hangman/get-api-state/'+
+                    this.urlGameUuid)
                 this.apiState = response.data
             } catch (error) {
                 return false
@@ -38,6 +41,8 @@ export default {
 
     created() {
         this.getApiState()
-    }
+    },
+
+    components: { InvitePlayers },
 }
 </script>

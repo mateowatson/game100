@@ -2,6 +2,9 @@
 namespace F3AppSetup\Controller;
 
 use F3AppSetup\Domain\HangmanAPI;
+use F3AppSetup\Model\Game as GameModel;
+use F3AppSetup\Model\UserGame;
+use F3AppSetup\Model\User;
 
 class Game extends Middleware\User {
     public function __construct($f3, $params, $csrf_fail_redirect = '/') {
@@ -23,5 +26,22 @@ class Game extends Middleware\User {
             ), true);
             $this->reroute('/hangman/game/'.urlencode($response['game_uuid']));
         }
+    }
+
+    public function sendGameInvite() {
+        $game_uuid = $this->params['uuid'];
+        $invitee = $this->params['invitee'];
+        $game = new GameModel();
+        $game_obj = $game->load(array('uuid = ?', $game_uuid));
+        $user = new User();
+        $invitee_obj = $user->load(array('username = ?', $invitee));
+        if($game_obj->dry() || $invitee_obj->dry()) {
+            echo 'Failed to send invite';
+            return false;
+        }
+        $user_game = new UserGame();
+        $user_game->addUserToGame($invitee_obj->id, $game_obj->id);
+        echo 'Sent invite';
+        return true;
     }
 }

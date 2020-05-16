@@ -66,6 +66,10 @@ class Main {
             $this->f3->get('SERVER')['REQUEST_METHOD'] : '';
         if(strcasecmp($request_method, 'POST') !== 0)
             return;
+        error_log('XXXXX');
+        error_log(print_r($this->f3->get('SESSION.csrf'), true));
+        error_log('YYYYYYY');
+        error_log(print_r($this->request['csrf'], true));
         if($this->f3->get('SESSION.csrf') !== $this->request['csrf']) {
             $this->f3->merge('session_errors', array(_(
                 'Form entry was not successful. Try again or contact site administrator.'
