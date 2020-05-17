@@ -4,9 +4,13 @@
             <label for="invitee">Invite players</label><br>
             <input type="text" id="invitee" name="invitee"
                 placeholder="Player username" v-model="invitee">
-            <input type="submit" name="submit" value="Invite">
+            <input type="submit" name="submit" value="Invite"
+                :disabled="!this.invitee">
             <div role="alert" v-for="confirmation in confirmations">
                 {{ confirmation }}
+            </div>
+            <div role="alert" v-for="error in errors">
+                {{ error }}
             </div>
         </form>
         <ul>
@@ -28,41 +32,59 @@ export default {
         return {
             invitee: '',
             invitees: [],
-            confirmations: []
+            confirmations: [],
+            errors: []
         }
     },
 
     methods: {
-        addInvitee(event) {
-            if(!this.invitees.find((invitee) => invitee.name = this.invitee)) {
-                this.invitees.push({
-                    name: this.invitee,
-                    accepted: false
-                })
+        addInvitee() {
+            var isInvited = this.invitees
+                .find((invitee) => invitee.name === this.invitee)
+            if(isInvited) {
+                this.errors.push(this.invitee+' has already been invited.')
+                setTimeout(this.shiftErrors, 3000)
+                return;
             }
+
             this.sendInvite(this.invitee)
                 .then((response) => {
-                    this.confirmations.push(response)
-                    setTimeout(this.shiftConfirmations, 3000)
+                    if(response.success) {
+                        this.confirmations.push('Invitation sent.')
+                        this.invitees.push({
+                            name: this.invitee,
+                            accepted: false
+                        })
+                        this.invitee = ''
+                        this.$emit('get-api-state')
+                        setTimeout(this.shiftConfirmations, 3000)
+                    } else {
+                        this.errors.push('The request failed.')
+                        this.invitee = ''
+                        setTimeout(this.shiftErrors, 3000)
+                    }
                 })
-            this.invitee = ''
         },
 
         async sendInvite(invitee) {
             var formData = new FormData()
             formData.append('csrf', window.appCsrf)
             try {
-                let response = await axios.post('/send-game-invite/'+
+                let response = await axios.post('/hangman/send-game-invite/'+
                     this.urlGameUuid+'/'+invitee, formData)
                 return response.data
             } catch (error) {
-                return error
+                return false
             }
         },
 
         shiftConfirmations() {
             this.confirmations.shift()
-        }
+        },
+
+        shiftErrors() {
+            this.errors.shift()
+        },
     }
 }
 </script>

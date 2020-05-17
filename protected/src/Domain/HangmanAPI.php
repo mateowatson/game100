@@ -57,6 +57,28 @@ class HangmanAPI {
         return $this->buildResponse();
     }
 
+    public function addUserToGame($game_uuid, $username) {
+        $game = new Game();
+        $game_obj = $game->load(array('uuid = ?', $game_uuid));
+        $user = new User();
+        $user_obj = $user->load(array('username = ?', $username));
+        if($game_obj->dry() || $user_obj->dry()) {
+            array_push($this->errors, _(
+                'Failed to send invite'
+            ));
+            return $this->buildResponse();
+        }
+        $user_game = new UserGame();
+        $user_game->addUserToGame($user_obj->id, $game_obj->id);
+        $this->success = true;
+        $game_state = json_decode($game_obj->game_state);
+        if(!in_array($username, $game_state->players))
+            array_push($game_state->players, $username);
+        $game_obj->game_state = json_encode($game_state);
+        $game_obj->save();
+        return $this->buildResponse();
+    }
+
     private function getInitialStateJSON($user) {
         return json_encode(array(
             'creator' => $user->username,

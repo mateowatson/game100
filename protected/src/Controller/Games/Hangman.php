@@ -29,4 +29,12 @@ class Hangman extends \F3AppSetup\Controller\Middleware\User {
         echo json_encode($response);
         return $response;
     }
+
+    public function sendGameInvite() {
+        $game_uuid = $this->params['uuid'];
+        $invitee = $this->params['invitee'];
+        $response = $this->hangman_api->addUserToGame($game_uuid, $invitee);
+        echo json_encode($response);
+        return $response;
+    }
 }

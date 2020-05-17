@@ -1,6 +1,9 @@
 <template>
     <div>
-        <InvitePlayers :url-game-uuid="urlGameUuid" :api-state="apiState" />
+        <InvitePlayers :url-game-uuid="urlGameUuid"
+            :api-state="apiState"
+            v-if="apiState && apiState.game_state"
+            @get-api-state="getApiState" />
         <pre>{{apiState}}</pre>
     </div>
 </template>

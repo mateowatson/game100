@@ -33,15 +33,25 @@ class Game extends Middleware\User {
         $invitee = $this->params['invitee'];
         $game = new GameModel();
         $game_obj = $game->load(array('uuid = ?', $game_uuid));
-        $user = new User();
-        $invitee_obj = $user->load(array('username = ?', $invitee));
-        if($game_obj->dry() || $invitee_obj->dry()) {
-            echo 'Failed to send invite';
-            return false;
+        if($game_obj->game_type === 'hangman') {
+            $hangman = new HangmanAPI();
+            $hangman->addUserToGame($game_obj);
         }
-        $user_game = new UserGame();
-        $user_game->addUserToGame($invitee_obj->id, $game_obj->id);
-        echo 'Sent invite';
-        return true;
+        // $game = new GameModel();
+        // $game_obj = $game->load(array('uuid = ?', $game_uuid));
+        // $user = new User();
+        // $invitee_obj = $user->load(array('username = ?', $invitee));
+        // if($game_obj->dry() || $invitee_obj->dry()) {
+        //     echo 'Failed to send invite';
+        //     return false;
+        // }
+        // $user_game = new UserGame();
+        // $user_game->addUserToGame($invitee_obj->id, $game_obj->id);
+        // if($game_obj->game_type === 'hangman') {
+        //     $hangman = new HangmanAPI();
+        //     $hangman->addUserToGame($game_obj);
+        // }
+        // echo 'Sent invite';
+        // return true;
     }
 }
